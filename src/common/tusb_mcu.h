@@ -145,6 +145,11 @@
   #define TUP_RHPORT_HIGHSPEED    1
   #define TUD_ENDPOINT_ONE_DIRECTION_ONLY
 
+#elif TU_CHECK_MCU(OPT_MCU_SAM7)
+  #define TUP_DCD_ENDPOINT_MAX    6
+  #define TUD_ENDPOINT_ONE_DIRECTION_ONLY
+  #define TU_ATTR_FAST_FUNC       __attribute__((section(".ramfunc")))
+
 #elif TU_CHECK_MCU(OPT_MCU_PIC32MZ)
   #define TUP_DCD_ENDPOINT_MAX    8
   #define TUD_ENDPOINT_ONE_DIRECTION_ONLY
