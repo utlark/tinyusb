@@ -200,6 +200,9 @@
 #define OPT_MCU_AT32F435_437     2502  ///< ArteryTek AT32F435/AT32F437
 #define OPT_MCU_AT32F423         2503  ///< ArteryTek AT32F423
 
+// Milandr
+#define OPT_MCU_MDR32F92QI       2600  ///< Milandr MDR32F92QI
+
 // Check if configured MCU is one of listed
 // Apply _TU_CHECK_MCU with || as separator to list of input
 #define _TU_CHECK_MCU(_m)    (CFG_TUSB_MCU == _m)
