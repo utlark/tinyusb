@@ -206,6 +206,7 @@ function(family_configure_common TARGET RTOS)
 
   # compile define from command line
   if(DEFINED CFLAGS_CLI)
+    separate_arguments(CFLAGS_CLI)
     target_compile_options(${TARGET} PUBLIC ${CFLAGS_CLI})
   endif()
 
@@ -289,14 +290,27 @@ function(family_add_tinyusb TARGET OPT_MCU RTOS)
       )
   endif ()
 
+  # compile define from command line
+  if(DEFINED CFLAGS_CLI)
+    separate_arguments(CFLAGS_CLI)
+    target_compile_options(${TARGET}-tinyusb PUBLIC ${CFLAGS_CLI})
+  endif()
+
 endfunction()
 
 # Add bin/hex output
 function(family_add_bin_hex TARGET)
-  add_custom_command(TARGET ${TARGET} POST_BUILD
-    COMMAND ${CMAKE_OBJCOPY} -Obinary $<TARGET_FILE:${TARGET}> $<TARGET_FILE_DIR:${TARGET}>/${TARGET}.bin
-    COMMAND ${CMAKE_OBJCOPY} -Oihex $<TARGET_FILE:${TARGET}> $<TARGET_FILE_DIR:${TARGET}>/${TARGET}.hex
-    VERBATIM)
+  if (CMAKE_C_COMPILER_ID STREQUAL "IAR")
+    add_custom_command(TARGET ${TARGET} POST_BUILD
+      COMMAND ${CMAKE_OBJCOPY} --bin $<TARGET_FILE:${TARGET}> $<TARGET_FILE_DIR:${TARGET}>/${TARGET}.bin
+      COMMAND ${CMAKE_OBJCOPY} --ihex $<TARGET_FILE:${TARGET}> $<TARGET_FILE_DIR:${TARGET}>/${TARGET}.hex
+      VERBATIM)
+  else()
+    add_custom_command(TARGET ${TARGET} POST_BUILD
+      COMMAND ${CMAKE_OBJCOPY} -Obinary $<TARGET_FILE:${TARGET}> $<TARGET_FILE_DIR:${TARGET}>/${TARGET}.bin
+      COMMAND ${CMAKE_OBJCOPY} -Oihex $<TARGET_FILE:${TARGET}> $<TARGET_FILE_DIR:${TARGET}>/${TARGET}.hex
+      VERBATIM)
+  endif()
 endfunction()
 
 # Add uf2 output
@@ -548,6 +562,7 @@ function(family_flash_teensy TARGET)
 
   add_custom_target(${TARGET}-teensy
     DEPENDS ${TARGET}
+    COMMAND ${CMAKE_OBJCOPY} -Oihex $<TARGET_FILE:${TARGET}> $<TARGET_FILE_DIR:${TARGET}>/${TARGET}.hex
     COMMAND ${TEENSY_CLI} --mcu=${TEENSY_MCU} -w -s $<TARGET_FILE_DIR:${TARGET}>/${TARGET}.hex
     )
 endfunction()
