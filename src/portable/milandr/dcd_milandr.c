@@ -80,8 +80,9 @@ static void bus_reset ()
 /*------------------------------------------------------------------*/
 
 // Initialize controller to device mode
-void dcd_init (uint8_t rhport)
+bool dcd_init(uint8_t rhport, const tusb_rhport_init_t* rh_init)
 {
+    (void) rh_init;
     MDR_RST_CLK->PER_CLOCK |= RST_CLK_PER_CLOCK_PCLK_EN_USB;
 
     MDR_RST_CLK->USB_CLOCK   |= RST_CLK_USB_CLOCK_USB_C2_SEL | RST_CLK_USB_CLOCK_USB_C1_SEL_HSE | RST_CLK_USB_CLOCK_USB_CLK_EN;
@@ -116,6 +117,7 @@ void dcd_init (uint8_t rhport)
     MDR_USB->USB_SEP[0].CTRL = USB_SEP_CTRL_EPEN | USB_SEP_CTRL_EPRDY;
 
     dcd_connect(0);
+    return true;
 }
 
 // Enable device interrupt

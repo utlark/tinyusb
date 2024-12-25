@@ -103,8 +103,9 @@ static void bus_reset ()
 /*------------------------------------------------------------------*/
 
 // Initialize controller to device mode
-void dcd_init (uint8_t rhport)
+bool dcd_init(uint8_t rhport, const tusb_rhport_init_t* rh_init)
 {
+    (void) rh_init;
     tu_memclr(xfer_status, sizeof(xfer_status));
 
     xfer_status[0].max_size = 8;
@@ -161,6 +162,7 @@ void dcd_init (uint8_t rhport)
     AT91C_BASE_AIC->AIC_ICCR = (1 << AT91C_ID_UDP);
 
     dcd_connect(0);
+    return true;
 }
 
 // Enable device interrupt
