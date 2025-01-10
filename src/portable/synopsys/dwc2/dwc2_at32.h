@@ -32,14 +32,35 @@
 
 #if CFG_TUSB_MCU == OPT_MCU_AT32F415
   #include <at32f415.h>
-  #define DWC2_OTGFS1_REG_BASE       0x50000000UL
+  #define OTG1_FIFO_SIZE           1280
+  #define OTG1_IRQn                OTGFS1_IRQn
+  #define DWC2_OTG1_REG_BASE       0x50000000UL
 #elif CFG_TUSB_MCU == OPT_MCU_AT32F435_437
   #include <at32f435_437.h>
-  #define DWC2_OTGFS1_REG_BASE       0x50000000UL
-  #define DWC2_OTGFS2_REG_BASE       0x40040000UL
+  #define OTG1_FIFO_SIZE           1280
+  #define OTG2_FIFO_SIZE           1280
+  #define OTG1_IRQn                OTGFS1_IRQn
+  #define OTG2_IRQn                OTGFS2_IRQn
+  #define DWC2_OTG1_REG_BASE       0x50000000UL
+  #define DWC2_OTG2_REG_BASE       0x40040000UL
 #elif CFG_TUSB_MCU == OPT_MCU_AT32F423
   #include <at32f423.h>
-  #define DWC2_OTGFS1_REG_BASE       0x50000000UL
+  #define OTG1_FIFO_SIZE           1280
+  #define OTG1_IRQn                OTGFS1_IRQn
+  #define DWC2_OTG1_REG_BASE       0x50000000UL
+#elif CFG_TUSB_MCU == OPT_MCU_AT32F402_405
+  #include <at32f402_405.h>
+  #define OTG1_FIFO_SIZE           1280
+  #define OTG2_FIFO_SIZE           4096
+  #define OTG1_IRQn                OTGFS1_IRQn
+  #define OTG2_IRQn                OTGHS_IRQn
+  #define DWC2_OTG1_REG_BASE       0x50000000UL
+  #define DWC2_OTG2_REG_BASE       0x40040000UL //OTGHS
+#elif CFG_TUSB_MCU == OPT_MCU_AT32F425
+  #include <at32f425.h>
+  #define OTG1_FIFO_SIZE           1280
+  #define OTG1_IRQn                OTGFS1_IRQn
+  #define DWC2_OTG1_REG_BASE       0x50000000UL
 #endif
 
 #ifdef __cplusplus
@@ -48,19 +69,9 @@
 
 static const dwc2_controller_t _dwc2_controller[] =
 {
-  #ifdef BOARD_TUD_RHPORT
-   #if BOARD_TUD_RHPORT == 0
-    { .reg_base = DWC2_OTGFS1_REG_BASE, .irqnum = OTGFS1_IRQn, .ep_count = DWC2_EP_MAX, .ep_fifo_size = 1280 },
-   #elif BOARD_TUD_RHPORT == 1
-    { .reg_base = DWC2_OTGFS2_REG_BASE, .irqnum = OTGFS2_IRQn, .ep_count = DWC2_EP_MAX, .ep_fifo_size = 1280 }
-   #endif
-  #endif
-  #ifdef BOARD_TUH_RHPORT
-   #if BOARD_TUH_RHPORT == 0
-    { .reg_base = DWC2_OTGFS1_REG_BASE, .irqnum = OTGFS1_IRQn, .ep_count = DWC2_EP_MAX, .ep_fifo_size = 1280 },
-   #elif BOARD_TUH_RHPORT == 1
-    { .reg_base = DWC2_OTGFS2_REG_BASE, .irqnum = OTGFS2_IRQn, .ep_count = DWC2_EP_MAX, .ep_fifo_size = 1280 }
-   #endif
+  { .reg_base = DWC2_OTG1_REG_BASE, .irqnum = OTG1_IRQn, .ep_count = DWC2_EP_MAX, .ep_fifo_size = OTG1_FIFO_SIZE },
+  #if defined DWC2_OTG2_REG_BASE
+  { .reg_base = DWC2_OTG2_REG_BASE, .irqnum = OTG2_IRQn, .ep_count = DWC2_EP_MAX, .ep_fifo_size = OTG2_FIFO_SIZE }
   #endif
 };
 
