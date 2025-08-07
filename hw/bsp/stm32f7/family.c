@@ -26,6 +26,10 @@
  * This file is part of the TinyUSB stack.
  */
 
+/* metadata:
+   manufacturer: STMicroelectronics
+*/
+
 #include "stm32f7xx_hal.h"
 #include "bsp/board_api.h"
 
@@ -74,6 +78,10 @@ void OTG_HS_IRQHandler(void) {
 //--------------------------------------------------------------------+
 
 void board_init(void) {
+  SCB_EnableICache();
+
+  HAL_Init();
+
   board_clock_init();
 
   // Enable All GPIOs clocks

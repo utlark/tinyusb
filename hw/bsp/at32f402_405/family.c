@@ -24,6 +24,10 @@
  * This file is part of the TinyUSB stack.
  */
 
+/* metadata:
+   manufacturer: Artery
+*/
+
 #include "at32f402_405_clock.h"
 #include "bsp/board_api.h"
 #include "board.h"
@@ -36,11 +40,11 @@ void usb_gpio_config(void);
 //--------------------------------------------------------------------+
 // Forward USB interrupt events to TinyUSB IRQ Handler
 //--------------------------------------------------------------------+
-void OTGFS1_IRQHandler(void) 
+void OTGFS1_IRQHandler(void)
 {
   tusb_int_handler(0, true);
 }
-void OTGHS_IRQHandler(void) 
+void OTGHS_IRQHandler(void)
 {
   tusb_int_handler(1, true);
 }
@@ -53,7 +57,7 @@ void OTGHS_WKUP_IRQHandler(void)
   tusb_int_handler(1, true);
 }
 
-void board_init(void) 
+void board_init(void)
 {
   /* config nvic priority group */
   nvic_priority_group_config(NVIC_PRIORITY_GROUP_4);
@@ -94,7 +98,7 @@ void board_init(void)
 //--------------------------------------------------------------------+
 // Board porting API
 //--------------------------------------------------------------------+
-void led_and_botton_init(void) 
+void led_and_botton_init(void)
 {
   /* LED */
   gpio_init_type gpio_led_init_struct;
@@ -217,7 +221,7 @@ int board_uart_write(void const *buf, int len)
   #if CFG_TUSB_OS == OPT_OS_NONE
     int txsize = len;
     u16 timeout = 0xffff;
-    while (txsize--) 
+    while (txsize--)
     {
       while(usart_flag_get(PRINT_UART, USART_TDBE_FLAG) == RESET)
       {
@@ -238,17 +242,17 @@ int board_uart_write(void const *buf, int len)
   #endif
 }
 
-void board_led_write(bool state) 
+void board_led_write(bool state)
 {
   gpio_bits_write(LED_PORT, LED_PIN, state ^ (!LED_STATE_ON));
 }
 
-uint32_t board_button_read(void) 
+uint32_t board_button_read(void)
 {
   return gpio_input_data_bit_read(BUTTON_PORT, BUTTON_PIN);
 }
 
-size_t board_get_unique_id(uint8_t id[], size_t max_len) 
+size_t board_get_unique_id(uint8_t id[], size_t max_len)
 {
   (void) max_len;
   volatile uint32_t * at32_uuid = ((volatile uint32_t*)0x1FFFF7E8);
@@ -264,11 +268,11 @@ size_t board_get_unique_id(uint8_t id[], size_t max_len)
 
 #if CFG_TUSB_OS == OPT_OS_NONE
   volatile uint32_t system_ticks = 0;
-  void SysTick_Handler(void) 
+  void SysTick_Handler(void)
   {
     system_ticks++;
   }
-  uint32_t board_millis(void) 
+  uint32_t board_millis(void)
   {
     return system_ticks;
   }
@@ -280,9 +284,13 @@ size_t board_get_unique_id(uint8_t id[], size_t max_len)
   }
 #endif
 
-void HardFault_Handler(void) 
-{
+void HardFault_Handler(void) {
   __asm("BKPT #0\n");
+}
+
+// Required by __libc_init_array in startup code if we are compiling using
+// -nostdlib/-nostartfiles.
+void _init(void) {
 }
 
 #ifdef  USE_FULL_ASSERT
@@ -294,4 +302,3 @@ void assert_failed(const char *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
