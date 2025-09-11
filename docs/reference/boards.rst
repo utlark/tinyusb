@@ -33,12 +33,15 @@ Artery
 ==============  ==============  =============  ==================================================  ======
 Board           Name            Family         URL                                                 Note
 ==============  ==============  =============  ==================================================  ======
+at_start_f402   AT-START-F402   at32f402_405   https://www.arterychip.com/en/product/AT32F402.jsp
 at_start_f405   AT-START-F405   at32f402_405   https://www.arterychip.com/en/product/AT32F405.jsp
-at_start_f403a  AT-START-F403a  at32f403a_407  https://www.arterychip.com/en/product/AT32F403.jsp
+at_start_f403a  AT-START-F403a  at32f403a_407  https://www.arterychip.com/en/product/AT32F403A.jsp
+at_start_f407   AT-START-F407   at32f403a_407  https://www.arterychip.com/en/product/AT32F407.jsp
 at_start_f413   AT-START-F413   at32f413       https://www.arterychip.com/en/product/AT32F413.jsp
 at_start_f415   AT-START-F415   at32f415       https://www.arterychip.com/en/product/AT32F415.jsp
 at_start_f423   AT-START-F423   at32f423       https://www.arterychip.com/en/product/AT32F423.jsp
 at_start_f425   AT-START-F425   at32f425       https://www.arterychip.com/en/product/AT32F425.jsp
+at_start_f435   AT-START-F435   at32f435_437   https://www.arterychip.com/en/product/AT32F435.jsp
 at_start_f437   AT-START-F437   at32f435_437   https://www.arterychip.com/en/product/AT32F437.jsp
 ==============  ==============  =============  ==================================================  ======
 
@@ -292,6 +295,7 @@ stm32l412nucleo      STM32 L412 Nucleo                  stm32l4    https://www.s
 stm32l476disco       STM32 L476 Disco                   stm32l4    https://www.st.com/en/evaluation-tools/32l476gdiscovery.html
 stm32l4p5nucleo      STM32 L4P5 Nucleo                  stm32l4    https://www.st.com/en/evaluation-tools/nucleo-l4p5zg.html
 stm32l4r5nucleo      STM32 L4R5 Nucleo                  stm32l4    https://www.st.com/en/evaluation-tools/nucleo-l4r5zi.html
+stm32n6570dk         STM32 N6570-DK                     stm32n6    https://www.st.com/en/evaluation-tools/stm32n6570-dk.html
 stm32n657nucleo      STM32 N657X0-Q Nucleo              stm32n6    https://www.st.com/en/evaluation-tools/nucleo-n657x0-q.html
 b_u585i_iot2a        STM32 B-U585i IOT2A Discovery kit  stm32u5    https://www.st.com/en/evaluation-tools/b-u585i-iot02a.html
 stm32u545nucleo      STM32 U545 Nucleo                  stm32u5    https://www.st.com/en/evaluation-tools/nucleo-u545re-q.html
